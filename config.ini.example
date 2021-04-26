@@ -1,4 +1,4 @@
 [spotify]
 clientId = <spotify-client-id>
 clientSecret = <spotify-client-secret>
-redirectUri = <spotify-redirect-uri>
+redirectUri = http://localhost:8080

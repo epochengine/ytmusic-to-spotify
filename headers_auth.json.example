@@ -1,0 +1,9 @@
+{
+  "User-Agent": "<your-user-agent-here>",
+  "Accept": "*/*",
+  "Accept-Language": "en-GB,en;q=0.9,en-US;q=0.8",
+  "Content-Type": "application/json",
+  "X-Goog-AuthUser": "<your-x-goog-authuser-here>",
+  "x-origin": "https://music.youtube.com",
+  "Cookie": "<your-cookie-here>"
+}
