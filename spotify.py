@@ -20,9 +20,9 @@ class Spotify:
     def search(self, title: str, artist: str = None, album: str = None):
         q = title
         if artist:
-            q = q + " " + artist
+            q = q + " artist:" + artist
         elif album:
-            q = q + " " + album
+            q = q + " album:" + album
 
         return self.client.search(q)
 
