@@ -5,7 +5,7 @@ yt_client = ytmusic.YouTubeMusic()
 spotify_client = spotify.Spotify()
 
 
-def check_for_duplicates(yt_music_songs: list):
+def check_for_duplicates(yt_music_songs: list[dict]):
     seen = []
     dupes = []
     for song in yt_music_songs:
@@ -23,7 +23,7 @@ def check_for_duplicates(yt_music_songs: list):
             print(song)
 
 
-def check_for_missing_songs(yt_music_songs: list, spotify_songs: list):
+def check_for_missing_songs(yt_music_songs: list[dict], spotify_songs: list[dict]):
     spotify_songs_lower = [song['title'].lower() for song in spotify_songs]
     missing_songs = []
     for song in yt_music_songs:

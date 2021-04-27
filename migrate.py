@@ -22,7 +22,7 @@ class MigrationRunner:
             print(f"Progress: {i}/{total}")
             time.sleep(5)
 
-    def like_batch(self, liked_songs_batch: list):
+    def like_batch(self, liked_songs_batch: list[dict]):
         track_ids = []
         for song in liked_songs_batch:
             spotify_tracks = self.spotify_client.search(song['title'], song['artist'], song['album'])
