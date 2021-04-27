@@ -54,7 +54,10 @@ def get_library_csv(library: list[dict], service: str):
 def get_spotify_songs():
     i = 0
     spotify_songs = []
-    while i < 720:
+    library = spotify_client.get_library(i)
+    total = library['total']
+    i = i + 20
+    while i < total:
         batch = spotify_client.get_library(i)['items']
         for song in batch:
             spotify_songs.append({'title': song['track']['name'], 'artist': song['track']['artists'][0]['name']})
