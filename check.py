@@ -56,8 +56,7 @@ def get_spotify_songs():
     spotify_songs = []
     library = spotify_client.get_library(i)
     total = library['total']
-    i = i + 20
-    while i < total:
+    while i <= total:
         batch = spotify_client.get_library(i)['items']
         for song in batch:
             spotify_songs.append({'title': song['track']['name'], 'artist': song['track']['artists'][0]['name']})
