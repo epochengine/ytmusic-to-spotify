@@ -16,11 +16,10 @@ class MigrationRunner:
         i = 0
         while i < total:
             start = i
-            i = i + 10
-            end = min(i, total)
-            batch = liked_songs[start:end]
-            print(f"Progress: {i}/{total}")
+            i = min(i + 10, total)
+            batch = liked_songs[start:i]
             self.like_batch(batch)
+            print(f"Progress: {i}/{total}")
             time.sleep(5)
 
     def like_batch(self, liked_songs_batch: list):
