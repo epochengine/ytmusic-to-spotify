@@ -5,22 +5,25 @@ import ytmusic
 
 class MigrationRunner:
 
-    def __init__(self):
-        self.yt_music_client = ytmusic.YouTubeMusic()
-        self.spotify_client = spotify.Spotify()
+    def __init__(self, yt_music_client, spotify_client):
+        self.yt_music_client = yt_music_client
+        self.spotify_client = spotify_client
 
-    def migrate_library(self):
+    def migrate_library(self, timeout_seconds: float = 5, batch_size: int = 10):
         liked_songs = self.yt_music_client.get_liked_songs()
         total = len(liked_songs)
 
         i = 0
         while i < total:
             start = i
-            i = min(i + 10, total)
+            last_batch = i + batch_size >= total
+            i = min(i + batch_size, total)
+
             batch = liked_songs[start:i]
             self.like_batch(batch)
             print(f"Progress: {i}/{total}")
-            time.sleep(5)
+            if not last_batch:
+                time.sleep(timeout_seconds)
 
     def like_batch(self, liked_songs_batch: list[dict]):
         track_ids = []
@@ -39,7 +42,7 @@ class MigrationRunner:
 
 
 def main():
-    runner = MigrationRunner()
+    runner = MigrationRunner(ytmusic.YouTubeMusic(), spotify.Spotify())
     runner.migrate_library()
 
 
