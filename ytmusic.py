@@ -3,8 +3,8 @@ from ytmusicapi import YTMusic
 
 class YouTubeMusic:
 
-    def __init__(self):
-        self.client = YTMusic('headers_auth.json')
+    def __init__(self, client=None):
+        self.client = client or YTMusic('headers_auth.json')
 
     def get_liked_songs(self):
         liked_songs = self.client.get_liked_songs(limit=1000)
@@ -15,11 +15,11 @@ class YouTubeMusic:
             title = t['title']
 
             album = None
-            if t['album']:
+            if 'album' in t:
                 album = t['album']['name']
 
             artist = None
-            if t['artists']:
+            if 'artists' in t and len(t['artists']) > 0:
                 artist = t['artists'][0]['name']
             searches.append({'title': title, 'album': album, 'artist': artist})
 
