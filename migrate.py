@@ -33,7 +33,10 @@ class MigrationRunner:
             if len(results) > 0:
                 track_ids.append(results[0]['id'])
             else:
-                print("No match found for " + song['title'] + " - " + song['artist'])
+                artist = song['artist']
+                if not artist:
+                    artist = 'N/A'
+                print("No match found for " + song['title'] + " - " + artist)
 
         self.spotify_client.add_to_library(track_ids)
 
