@@ -21,7 +21,7 @@ class Spotify:
         q = title
         if artist:
             q = q + " artist:" + artist
-        elif album:
+        if album:
             q = q + " album:" + album
 
         return self.client.search(q)
