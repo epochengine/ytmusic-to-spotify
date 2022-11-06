@@ -15,7 +15,7 @@ class YouTubeMusic:
             title = t['title']
 
             album = None
-            if 'album' in t:
+            if 'album' in t and t['album']:
                 album = t['album']['name']
 
             artist = None

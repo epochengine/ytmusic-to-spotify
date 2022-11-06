@@ -30,6 +30,10 @@ class TestYTMusic(unittest.TestCase):
                     'album': {
                         'name': 'Album 3'
                     }
+                },
+                {
+                    'title': 'Track 4',
+                    'album': None
                 }
             ]
         }
@@ -40,7 +44,8 @@ class TestYTMusic(unittest.TestCase):
         expected_songs = [
             {'title': 'Track 1', 'artist': None, 'album': None},
             {'title': 'Track 2', 'artist': 'Artist 2.1', 'album': None},
-            {'title': 'Track 3', 'artist': None, 'album': 'Album 3'}
+            {'title': 'Track 3', 'artist': None, 'album': 'Album 3'},
+            {'title': 'Track 4', 'artist': None, 'album': None}
         ]
 
         self.assertEqual(retrieved_songs, expected_songs)
