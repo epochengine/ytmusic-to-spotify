@@ -26,8 +26,14 @@ class Spotify:
 
         return self.client.search(q)
 
-    def add_to_library(self, track_ids: list[str]):
+    def add_to_library(self, playlist_id: str, track_ids: list[str]):
         self.client.current_user_saved_tracks_add(track_ids)
 
     def get_library(self, offset: int):
         return self.client.current_user_saved_tracks(limit=20, offset=offset)
+
+    def create_playlist(self, playlist_name: str):
+        return self.client.user_playlist_create(self.client.current_user()['id'], playlist_name, public=False)['id']
+
+    def add_to_playlist(self, playlist_id: str, track_ids: list[str]):
+        self.client.playlist_add_items(playlist_id, track_ids)

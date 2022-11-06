@@ -37,10 +37,10 @@ class TestYTMusic(unittest.TestCase):
                 }
             ]
         }
-        yt_client.get_liked_songs.return_value = mock_liked_songs
+        yt_client.get_playlist.return_value = mock_liked_songs
 
         under_test = YouTubeMusic(yt_client)
-        retrieved_songs = under_test.get_liked_songs()
+        retrieved_songs = under_test.get_playlist_songs('foo')
         expected_songs = [
             {'title': 'Track 1', 'artist': None, 'album': None},
             {'title': 'Track 2', 'artist': 'Artist 2.1', 'album': None},

@@ -7,42 +7,52 @@ from migrate import MigrationRunner
 
 class TestMigrate(unittest.TestCase):
 
-    timeout_seconds = 0.001
+    def setUp(self) -> None:
+        self.yt_music_client = Mock()
+        self.spotify_client = Mock()
+        mock_playlist_songs = [
+            {'title': 'Title 1', 'artist': 'Artist 1', 'album': 'Album 1'}
+        ]
+        self.yt_music_client.get_playlist_songs.return_value = mock_playlist_songs
+        self.spotify_client.search.return_value = {'tracks': {'items': [{'id': 12}, {'id': 34}]}}
+        self.under_test = MigrationRunner(self.yt_music_client, self.spotify_client)
 
     def test_migrate_library(self):
-        yt_music_client = Mock()
-        mock_liked_songs = [
+        self.under_test.migrate_library()
+
+        self.assertEqual(self.spotify_client.add_to_library.call_args_list, [call(None, [12])])
+
+    def test_no_result(self):
+        spotify_searches = {'tracks': {'items': []}}
+        self.spotify_client.search.return_value = spotify_searches
+
+        self.under_test.migrate_library()
+
+        self.assertEqual(self.spotify_client.add_to_library.call_args_list, [call(None, [])])
+
+    def test_migrate_playlist(self):
+        self.spotify_client.create_playlist.return_value = 'playlist1234'
+
+        self.under_test.migrate_playlist('My Playlist')
+
+        self.assertEqual(self.spotify_client.add_to_playlist.call_args_list, [call('playlist1234', [12])])
+
+    def test_batching(self):
+        mock_playlist_songs = [
             {'title': 'Title 1', 'artist': None, 'album': None},
             {'title': 'Title 2', 'artist': 'Artist 2', 'album': 'Album 2'}
         ]
-        yt_music_client.get_liked_songs.return_value = mock_liked_songs
-        spotify_client = Mock()
+        self.yt_music_client.get_playlist_songs.return_value = mock_playlist_songs
         spotify_searches = [
             {'tracks': {'items': [{'id': 12}]}},
             {'tracks': {'items': [{'id': 34}, {'id': 56}]}}
         ]
-        spotify_client.search.side_effect = spotify_searches
+        self.spotify_client.search.side_effect = spotify_searches
 
-        under_test = MigrationRunner(yt_music_client, spotify_client)
-        under_test.migrate_library(timeout_seconds=self.timeout_seconds, batch_size=1)
+        self.under_test.migrate_songs('yt_playlist1234', 'sp_playlist1234', timeout_seconds=0.001, batch_size=1)
 
-        self.assertEqual(spotify_client.add_to_library.call_args_list, [call([12]), call([34])])
-
-    def test_no_result(self):
-        yt_music_client = Mock()
-        mock_liked_songs = [
-            {'title': 'Title 1', 'artist': None, 'album': None},
-            {'title': 'Title 2', 'artist': 'Artist 2', 'album': 'Album 2'}
-        ]
-        yt_music_client.get_liked_songs.return_value = mock_liked_songs
-        spotify_client = Mock()
-        spotify_searches = {'tracks': {'items': []}}
-        spotify_client.search.return_value = spotify_searches
-
-        under_test = MigrationRunner(yt_music_client, spotify_client)
-        under_test.migrate_library(timeout_seconds=self.timeout_seconds)
-
-        self.assertEqual(spotify_client.add_to_library.call_args_list, [call([])])
+        self.assertEqual(self.spotify_client.add_to_playlist.call_args_list,
+                         [call('sp_playlist1234', [12]), call('sp_playlist1234', [34])])
 
 
 if __name__ == '__main__':

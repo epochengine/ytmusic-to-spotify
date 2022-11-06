@@ -61,4 +61,7 @@ You will also need to manually search for and add any songs that weren't found a
 ## Future work
 
 - TODO: Add work and words around `check.py`.
-- TODO: Add migration handling for custom playlists.
+- TODO: Add migration handling for custom playlists. In particular, refactor the code to make it less nasty (liked songs
+passthrough).
+- TODO: Logging in a nicer way as a report to make misses more obvious.
+- TODO: Mode selector at entrypoint.

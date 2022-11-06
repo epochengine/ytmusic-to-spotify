@@ -3,6 +3,6 @@ chardet==4.0.0
 idna==2.10
 requests==2.25.1
 six==1.15.0
-spotipy==2.18.0
+spotipy==2.21.0
 urllib3==1.26.4
-ytmusicapi==0.16.0
+ytmusicapi==0.24.0
