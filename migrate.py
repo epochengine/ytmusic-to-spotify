@@ -1,6 +1,7 @@
 import spotify
 import time
 import ytmusic
+import os.path
 
 
 class MigrationRunner:
@@ -45,8 +46,15 @@ class MigrationRunner:
 
 
 def main():
+    check_file('config.ini')
+    check_file('headers_auth.json')
     runner = MigrationRunner(ytmusic.YouTubeMusic(), spotify.Spotify())
     runner.migrate_library()
+
+
+def check_file(filename):
+    if not os.path.isfile(filename):
+        raise FileNotFoundError('Missing ' + filename)
 
 
 if __name__ == '__main__':
