@@ -50,6 +50,9 @@ in the YouTube Music library.
 The Spotify API has a rate limit, so the migration is done in batches with a pause between to avoid hitting the limit.
 This program does not currently handle being rate limited gracefully.
 
+**Note: while the `public` parameter has been set to `False` when creating the playlist on Spotify, manual testing has
+shown that the playlist still shows as public. You may need to manually change this.**
+
 ## Post-execution
 
 Unfortunately it is not possible to guarantee perfect matches for each song. This program will use artist/album
